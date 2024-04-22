@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :jobs, only: %i[index show create update destroy]
       resources :clients, only: %i[index show create update destroy]
+      resources :categories, only: %i[index]
     end
   end
   get '*path', to: 'pages#index', via: :all
