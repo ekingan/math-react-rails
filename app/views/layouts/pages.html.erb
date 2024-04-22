@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ReactOnRailsWithShakapacker</title>
+    <%= csrf_meta_tags %>
+    <%= javascript_pack_tag 'pages-bundle' %>
+    <%= stylesheet_pack_tag 'pages-bundle' %>
+  </head>
+
+  <body>
+    <%= render "shared/navigation" %>
+    <%= render "shared/flash" %>
+    <%= yield %>
+  </body>
+</html>
