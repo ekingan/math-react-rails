@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import PropTypes from "prop-types";
 
 import axios from "axios";
-import setRequestHeaders from "./RequestHeaders";
+import setRequestHeaders from "../RequestHeaders";
 
 const ClientForm = ({createClient}) => {
   const [firstName, setFirstName] = useState('');

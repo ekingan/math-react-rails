@@ -15,6 +15,7 @@ class Api::V1::JobsController < ApplicationController
   end
 
   def create
+    puts job_params
     @job = current_user.jobs.build(job_params)
     puts @job.errors.inspect
     if authorized?

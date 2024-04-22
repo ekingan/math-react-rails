@@ -2,12 +2,16 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import _ from "lodash";
-import setRequestHeaders from './RequestHeaders';
+import setRequestHeaders from '../RequestHeaders';
+import { statuses } from '../../utilities';
 
-const Job = ({job, getJobs}) => {
-  const [client, setClient] = useState(job.client);
+const Job = ({job, getJobs, clients}) => {
+  const [client, setClient] = useState(clients && clients.filter((client) => client.id === job.client_id )[0]);
+  const [clientId, setClientId] = useState(job.client_id);
   const [year, setYear] = useState(job.year);
   const [status, setStatus] = useState(job.status);
+
+  console.log({client})
 
   const path = `/api/v1/jobs/${job.id}`;
 
@@ -16,9 +20,10 @@ const Job = ({job, getJobs}) => {
     axios
       .put(path, {
         job: {
-          client,
+          client_id: clientId,
           year,
           status,
+          category_id: 1,
         },
       })
       .then((response) => {
@@ -51,13 +56,11 @@ useEffect(() => {
   return (
       <tr>
         <td>
-          <input
-            type="text"
-            defaultValue={job.client}
-            onChange={(e) => setClient(e.target.value)}
-            className="form-control"
-            id={`job__client-${job.id}`}
-          />
+          <select class="form-select" onChange={(e) => setClientId(e.target.value)}>
+            <option selected>{`${client.last_name}, ${client.first_name}`}</option>
+            {clients && clients.map((client) => <option value={client.id}> {`${client.last_name}, ${client.first_name}`} </option>
+            )}
+          </select> 
         </td>
         <td>
           <input
@@ -69,13 +72,11 @@ useEffect(() => {
           />
         </td>
         <td className="text-right">
-          <input
-            type="text"
-            defaultValue={job}
-            onChange={(e) => setStatus(e.target.value)}
-            className="form-control"
-            id={`job__status-${job.id}`}
-          />
+        <select class="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
+              {statuses.map((status) => <option value={status}> {status} </option>
+        
+              )}
+            </select> 
         </td>
         <td>
         <button onClick={handleDestroy} className="btn btn-outline-danger">Delete</button>

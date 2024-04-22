@@ -1,31 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import axios from "axios";
 import Client from './Client';
 import ClientForm from './ClientForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Clients = () => {
-  const [clients, setClients] = useState(null);
-
-  const getClientList = () => {
-    axios.get("/api/v1/clients")
-          .then((response) => {
-            const clients = response.data;
-            setClients(clients);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-  };
-
+const Clients = ({clients, setClients, getClients}) => {
   const createClient = (client) => {
     const newClientList = [ client, ...clients]
     setClients(newClientList); 
   }
-
-  useEffect(() => {
-    getClientList();
-  }, []);
 
   return (
     <>
@@ -42,7 +24,7 @@ const Clients = () => {
             </tr>
           </thead>
           <tbody>
-            {clients && clients.map((client) => <Client client={client} getClients={getClientList} key={client.id}/>
+            {clients && clients.map((client) => <Client client={client} getClients={getClients} key={client.id}/>
             )}
           </tbody>
         </table>

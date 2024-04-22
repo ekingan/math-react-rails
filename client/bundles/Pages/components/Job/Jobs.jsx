@@ -4,12 +4,14 @@ import Job from './Job';
 import JobForm from './JobForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Jobss = () => {
+const Jobs = ({clients}) => {
   const [jobs, setJobs] = useState(null);
 
   const getJobs = () => {
+    console.log({jobs})
     axios.get("/api/v1/jobs")
           .then((response) => {
+            console.log({response})
             const jobs = response.data;
             setJobs(jobs);
           })
@@ -29,7 +31,7 @@ const Jobss = () => {
 
   return (
     <>
-      <JobForm createJob={createJob}/>
+      <JobForm createJob={createJob} clients={clients}/>
       <div className="table-responsive">
         <table className="table">
           <thead>
@@ -42,7 +44,7 @@ const Jobss = () => {
             </tr>
           </thead>
           <tbody>
-            {jobs && jobs.map((job) => <Job job={job} getJobs={getJobs} key={job.id}/>
+            {jobs && jobs.map((job) => <Job job={job} getJobs={getJobs} key={job.id} clients={clients}/>
             )}
           </tbody>
         </table>

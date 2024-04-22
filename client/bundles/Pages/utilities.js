@@ -1,0 +1,1 @@
+export const statuses = [ 'todo', 'in_progress', 'need_info', 'need_signatures', 'ready', 'filed', 'accepted', 'done']

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import _ from "lodash";
-import setRequestHeaders from './RequestHeaders';
+import setRequestHeaders from '../RequestHeaders';
 
 const Client = ({client, getClients}) => {
   const [firstName, setFirstName] = useState(client.first_name);
