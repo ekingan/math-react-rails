@@ -5,13 +5,14 @@ import _ from "lodash";
 import setRequestHeaders from '../RequestHeaders';
 import { statuses } from '../../utilities';
 
-const Job = ({job, getJobs, clients}) => {
-  const [client, setClient] = useState(clients && clients.filter((client) => client.id === job.client_id )[0]);
+const Job = ({job, getJobs, clients, categories}) => {
   const [clientId, setClientId] = useState(job.client_id);
+  const [categoryId, setCategoryId] = useState(job.category_id)
   const [year, setYear] = useState(job.year);
   const [status, setStatus] = useState(job.status);
 
-  console.log({client})
+  const client = clients && clients.filter((client) => client.id === job.client_id )[0];
+  const category = categories && categories.filter((category) => category.id === job.category_id)[0];
 
   const path = `/api/v1/jobs/${job.id}`;
 
@@ -23,7 +24,7 @@ const Job = ({job, getJobs, clients}) => {
           client_id: clientId,
           year,
           status,
-          category_id: 1,
+          category_id: categoryId,
         },
       })
       .then((response) => {
@@ -56,7 +57,7 @@ useEffect(() => {
   return (
       <tr>
         <td>
-          <select class="form-select" onChange={(e) => setClientId(e.target.value)}>
+          <select className="form-select" onChange={(e) => setClientId(e.target.value)}>
             <option selected>{`${client.last_name}, ${client.first_name}`}</option>
             {clients && clients.map((client) => <option value={client.id}> {`${client.last_name}, ${client.first_name}`} </option>
             )}
@@ -71,12 +72,18 @@ useEffect(() => {
             id={`job__year-${job.id}`}
           />
         </td>
+        <td>
+          <select className="form-select" onChange={(e) => setCategoryId(e.target.value)}>
+            <option selected>{category.name}</option>
+            {categories && categories.map((category) => <option value={category.id}> {category.name} </option>
+            )}
+          </select> 
+        </td> 
+
         <td className="text-right">
-        <select class="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
-              {statuses.map((status) => <option value={status}> {status} </option>
-        
-              )}
-            </select> 
+          <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
+            {statuses.map((status) => <option value={status}> {status} </option>)}
+          </select> 
         </td>
         <td>
         <button onClick={handleDestroy} className="btn btn-outline-danger">Delete</button>
@@ -86,9 +93,9 @@ useEffect(() => {
     );
 };
 
-export default Job;
-
 Job.propTypes = {
   job: PropTypes.object.isRequired,
   getJobs: PropTypes.func.isRequired,
 };
+
+export default Job;

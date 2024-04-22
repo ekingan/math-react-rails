@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import axios from "axios";
 import Job from './Job';
 import JobForm from './JobForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Jobs = ({clients}) => {
+const Jobs = ({clients, categories}) => {
   const [jobs, setJobs] = useState(null);
 
   const getJobs = () => {
@@ -31,26 +32,33 @@ const Jobs = ({clients}) => {
 
   return (
     <>
-      <JobForm createJob={createJob} clients={clients}/>
+      <JobForm createJob={createJob} clients={clients} categories={categories}/>
       <div className="table-responsive">
         <table className="table">
           <thead>
             <tr>
               <th scope="col">Client</th>
               <th scope="col">Year</th>
+              <th scope="col">Type</th>
               <th scope="col" className="text-right">
                 Status
               </th>
             </tr>
           </thead>
           <tbody>
-            {jobs && jobs.map((job) => <Job job={job} getJobs={getJobs} key={job.id} clients={clients}/>
+            {jobs && jobs.map((job) => <Job job={job} getJobs={getJobs} key={job.id} clients={clients} categories={categories}/>
             )}
           </tbody>
         </table>
       </div>
     </>
   );
+};
+
+Jobs.propTypes = {
+  clients: PropTypes.array.isRequired,
+  categories: PropTypes.object.isRequired,
+ 
 };
 
 export default Jobs;

@@ -4,7 +4,7 @@ import axios from "axios";
 import _ from "lodash";
 import setRequestHeaders from '../RequestHeaders';
 
-const Client = ({client, getClients}) => {
+const Client = ({client, getClients, categories}) => {
   const [firstName, setFirstName] = useState(client.first_name);
   const [lasttName, setLastName] = useState(client.last_name);
   const [email, setEmail] = useState(client.email);

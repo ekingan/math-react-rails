@@ -3,4 +3,5 @@ class Job < ApplicationRecord
   belongs_to :client
   belongs_to :user
   has_one :category
+  default_scope { order('updated_at DESC') }
 end

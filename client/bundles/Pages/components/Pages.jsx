@@ -36,8 +36,6 @@ const Pages = () => {
     getCategories();
   }, []);
 
-  console.log({categories})
-
   const router = createBrowserRouter([
     {
       path: "/",
@@ -52,9 +50,14 @@ const Pages = () => {
       element: <Jobs clients={clients} categories={categories}/>,
     },
   ]);
-  return (
-    <RouterProvider router={router} />
-  );
+
+  if (clients && categories) {
+    return (
+      <RouterProvider router={router} />
+    );
+  } else {
+    return "loading"
+  }
 };
 
 export default Pages;

@@ -3,7 +3,7 @@ import Client from './Client';
 import ClientForm from './ClientForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Clients = ({clients, setClients, getClients}) => {
+const Clients = ({clients, setClients, getClients, categories}) => {
   const createClient = (client) => {
     const newClientList = [ client, ...clients]
     setClients(newClientList); 
@@ -24,7 +24,7 @@ const Clients = ({clients, setClients, getClients}) => {
             </tr>
           </thead>
           <tbody>
-            {clients && clients.map((client) => <Client client={client} getClients={getClients} key={client.id}/>
+            {clients && clients.map((client) => <Client client={client} getClients={getClients} key={client.id} categories={categories}/>
             )}
           </tbody>
         </table>

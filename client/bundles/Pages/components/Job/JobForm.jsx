@@ -5,8 +5,9 @@ import axios from "axios";
 import setRequestHeaders from "../RequestHeaders";
 import { statuses } from '../../utilities';
 
-const JobForm = ({createJob, clients}) => {
+const JobForm = ({createJob, clients, categories}) => {
   const [clientId, setClientId] = useState(null);
+  const [categoryId, setCategoryId] = useState(null);
   const [year, setYear] = useState(new Date().getFullYear() - 1);
   const [status, setStatus] = useState('todo');
 
@@ -19,15 +20,13 @@ const JobForm = ({createJob, clients}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setRequestHeaders();
-    console.log(clientId)
-    debugger;
     axios
       .post("/api/v1/jobs", {
         job: {
-          client_id: parseInt(clientId, 10),
+          client_id: clientId,
           year,
           status,
-          category_id: 1,
+          category_id: categoryId,
         },
       })
       .then((response) => {
@@ -55,18 +54,24 @@ const JobForm = ({createJob, clients}) => {
             onChange={(e) => setYear(e.target.value)}
           />
           <label>
-            <select class="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
+            <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
               {statuses.map((status) => <option value={status}> {status} </option>
-        
               )}
             </select> 
           </label>
           <label>
-            <select class="form-select" onChange={(e) => setClientId(e.target.value)}>
+            <select className="form-select" onChange={(e) => setClientId(e.target.value)}>
               <option selected>Select a client</option>
               {clients && clients.map((client) => <option value={client.id}> {`${client.last_name}, ${client.first_name}`} </option>
               )}
             </select> 
+          </label>
+          <label>
+          <select className="form-select" onChange={(e) => setCategoryId(e.target.value)}>
+            <option selected>Select a type</option>
+            {categories && categories.map((category) => <option value={category.id}> {category.name} </option>
+            )}
+          </select> 
           </label>
         </div>
         <div className="form-group col-md-4">
