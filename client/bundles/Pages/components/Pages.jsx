@@ -11,6 +11,7 @@ import Jobs from './Job/Jobs';
 const Pages = () => {
   const [clients, setClients] = useState(null);
   const [categories, setCategories] = useState(null);
+
   const getClientList = () => {
     axios.get("/api/v1/clients")
           .then((response) => {

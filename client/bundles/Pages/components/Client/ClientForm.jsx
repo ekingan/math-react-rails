@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
-import Select, { MultiValue } from "react-select";
+import Select from "react-select";
 
 import axios from "axios";
 import setRequestHeaders from "../RequestHeaders";
@@ -12,12 +12,12 @@ const ClientForm = ({createClient, categories}) => {
   const [selectedCategories, setSelectedCategories] = useState(null);
   const [categoryOptions, setCategoryOptions] = useState(null);
 
-  console.log(categoryOptions);
-
   const resetForm = () => {
+    console.log('resetting')
     setFirstName('');
     setLastName('');
     setEmail('');
+    setSelectedCategories(null);
   }
 
   useEffect(() => {
@@ -30,23 +30,24 @@ const ClientForm = ({createClient, categories}) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setRequestHeaders();
+    const categoryIds = selectedCategories.map((category) => category.value);
     axios
       .post("/api/v1/clients", {
         client: {
           first_name: firstName,
           last_name: lasttName,
           email,
-          categories: selectedCategories,
+          category_ids: categoryIds,
         },
       })
       .then((response) => {
         const client = response.data;
         createClient(client);
+        resetForm();
       })
       .catch((error) => {
         console.log(error);
       });
-    resetForm();
   };
 
   return (
