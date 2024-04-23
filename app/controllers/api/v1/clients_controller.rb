@@ -16,7 +16,6 @@ class Api::V1::ClientsController < ApplicationController
 
   def create
     @client = current_user.clients.build(client_params)
-
     if authorized?
       respond_to do |format|
         if @client.save
@@ -68,7 +67,7 @@ class Api::V1::ClientsController < ApplicationController
   private
 
   def client_params
-    params.require(:client).permit(:first_name, :last_name, :company, :email)
+    params.require(:client).permit(:first_name, :last_name, :company, :email, category_ids: [])
   end
 
   def set_client

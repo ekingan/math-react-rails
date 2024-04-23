@@ -11,7 +11,7 @@ const Clients = ({clients, setClients, getClients, categories}) => {
 
   return (
     <>
-      <ClientForm createClient={createClient}/>
+      <ClientForm createClient={createClient} categories={categories}/>
       <div className="table-responsive">
         <table className="table">
           <thead>
