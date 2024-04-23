@@ -1,19 +1,31 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
+import Select, { MultiValue } from "react-select";
 
 import axios from "axios";
 import setRequestHeaders from "../RequestHeaders";
 
-const ClientForm = ({createClient}) => {
+const ClientForm = ({createClient, categories}) => {
   const [firstName, setFirstName] = useState('');
   const [lasttName, setLastName] = useState('');
   const [email, setEmail] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState(null);
+  const [categoryOptions, setCategoryOptions] = useState(null);
+
+  console.log(categoryOptions);
 
   const resetForm = () => {
     setFirstName('');
     setLastName('');
     setEmail('');
   }
+
+  useEffect(() => {
+    if (categories) {
+      const opts = categories?.map(({id: value, name: label})=>({value, label}));
+      setCategoryOptions(opts)
+    }
+  }, [categories])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -24,6 +36,7 @@ const ClientForm = ({createClient}) => {
           first_name: firstName,
           last_name: lasttName,
           email,
+          categories: selectedCategories,
         },
       })
       .then((response) => {
@@ -46,7 +59,7 @@ const ClientForm = ({createClient}) => {
             required
             className="form-control"
             id="firstName"
-            placeholder='Client first name'
+            placeholder='first name'
             onChange={(e) => setFirstName(e.target.value)}
           />
           <input
@@ -55,7 +68,7 @@ const ClientForm = ({createClient}) => {
             required
             className="form-control"
             id="lastName"
-            placeholder='Client last name'
+            placeholder='last name'
             onChange={(e) => setLastName(e.target.value)}
           />
           <input
@@ -64,8 +77,15 @@ const ClientForm = ({createClient}) => {
             required
             className="form-control"
             id="email"
-            placeholder="Client email"
+            placeholder="email"
             onChange={(e) => setEmail(e.target.value)}
+          />
+          <Select
+            placeholder="select client types"
+            defaultValue={selectedCategories}
+            onChange={setSelectedCategories}
+            options={categoryOptions}
+            isMulti
           />
         </div>
         <div className="form-group col-md-4">
