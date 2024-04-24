@@ -10,6 +10,8 @@ const JobForm = ({createJob, clients, categories}) => {
   const [categoryId, setCategoryId] = useState(null);
   const [year, setYear] = useState(new Date().getFullYear() - 1);
   const [status, setStatus] = useState('todo');
+  const [price, setPrice] = useState(0);
+  const [paid, setPaid] = useState(false); 
 
   const resetForm = () => {
     setClient(null);
@@ -27,6 +29,8 @@ const JobForm = ({createJob, clients, categories}) => {
           year,
           status,
           category_id: categoryId,
+          price,
+          paid,
         },
       })
       .then((response) => {
@@ -73,6 +77,16 @@ const JobForm = ({createJob, clients, categories}) => {
             )}
           </select> 
           </label>
+          <input
+            type="number"
+            onChange={(e) => setPrice(e.target.value)}
+            className="form-control"
+            placeholder='price'
+          />
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={(e) => setPaid(e.target.value)}/>
+            <label class="form-check-label" for="flexSwitchCheckDefault">Paid?</label>
+          </div>
         </div>
         <div className="form-group col-md-4">
           <button className="btn btn-outline-success btn-block">

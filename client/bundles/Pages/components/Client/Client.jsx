@@ -18,8 +18,6 @@ const Client = ({client, getClients, categories}) => {
   const updateClient = _.debounce(() => {
     setRequestHeaders();
     const categoryIds = selectedCategories && selectedCategories.map((category) => category.value);
-    console.log(client.last_name)
-    console.log({categoryIds})
 
     axios
       .put(path, {
@@ -36,7 +34,7 @@ const Client = ({client, getClients, categories}) => {
       .catch((error) => {
         console.log(error);
       });
-  }, 1000);
+  }, 1500);
 
   useEffect(() => {
     if (categories) {
@@ -61,7 +59,7 @@ const Client = ({client, getClients, categories}) => {
     }
   };
   return (
-      <tr>
+      <tr className={client.archived ? 'table-secondary' : ''}>
         <td>
           <input
             type="text"

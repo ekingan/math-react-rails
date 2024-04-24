@@ -80,7 +80,7 @@ class Api::V1::JobsController < ApplicationController
     end
   end
   def job_params
-    params.require(:job).permit(:status, :year, :client_id, :category_id)
+    params.require(:job).permit(:status, :year, :client_id, :category_id, :price, :paid)
   end
 end
 

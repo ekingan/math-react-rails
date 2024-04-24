@@ -40,6 +40,8 @@ const Jobs = ({clients, categories}) => {
               <th scope="col">Client</th>
               <th scope="col">Year</th>
               <th scope="col">Type</th>
+              <th scope="col">Price</th>
+              <th scope="col">Paid</th>
               <th scope="col" className="text-right">
                 Status
               </th>

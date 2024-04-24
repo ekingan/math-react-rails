@@ -64,7 +64,7 @@ const Clients = ({clients, setClients, getClients, categories}) => {
               <th scope="col" className="text-right">
                 Email
               </th>
-              <th scope="col">Archived</th> 
+              <th scope="col">Type</th> 
             </tr>
           </thead>
           <tbody>

@@ -10,6 +10,8 @@ const Job = ({job, getJobs, clients, categories}) => {
   const [categoryId, setCategoryId] = useState(job.category_id)
   const [year, setYear] = useState(job.year);
   const [status, setStatus] = useState(job.status);
+  const [price, setPrice] = useState(job.price);
+  const [paid, setPaid] = useState(job.paid); 
 
   const client = clients && clients.filter((client) => client.id === job.client_id )[0];
   const category = categories && categories.filter((category) => category.id === job.category_id)[0];
@@ -79,7 +81,22 @@ useEffect(() => {
             )}
           </select> 
         </td> 
-
+        <td>
+          <input
+            type="number"
+            defaultValue={job.price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="form-control"
+            id={`job__price-${job.id}`}
+          /> 
+        </td>
+        <td>
+        <td>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={(e) => setPaid(e.target.value)}/>
+          </div>
+        </td>
+        </td>
         <td className="text-right">
           <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
             {statuses.map((status) => <option value={status}> {status} </option>)}
