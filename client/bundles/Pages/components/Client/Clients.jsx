@@ -1,17 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Client from './Client';
 import ClientForm from './ClientForm';
+import Filter from '../Filter';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Clients = ({clients, setClients, getClients, categories}) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filtered, setFilter] = useState(clients);
+  const [allClients, setAllClients] = useState(clients)
   const createClient = (client) => {
     const newClientList = [ client, ...clients]
     setClients(newClientList); 
   }
 
+  const handleSearch = (term) => {
+    if (term === '') {
+      setAllClients(allClients);
+    } else {
+      const filtered = allClients.filter(
+        (item) =>
+          item.last_name.toLowerCase().includes(term) ||
+          item.first_name.toLowerCase().includes(term)
+      );
+      setFilter(filtered);
+    }
+  };
   return (
     <>
       <ClientForm createClient={createClient} categories={categories}/>
+      <div>
+      <input
+        type="text"
+        defaultValue={searchTerm}
+        onChange={(e) => handleSearch(e.target.value)}
+        className="form-control"
+        placeholder='search'
+      />
+      </div>
       <div className="table-responsive">
         <table className="table">
           <thead>
@@ -24,7 +49,7 @@ const Clients = ({clients, setClients, getClients, categories}) => {
             </tr>
           </thead>
           <tbody>
-            {clients && clients.map((client) => <Client client={client} getClients={getClients} key={client.id} categories={categories}/>
+            {clients && filtered.map((client) => <Client client={client} getClients={getClients} key={client.id} categories={categories}/>
             )}
           </tbody>
         </table>

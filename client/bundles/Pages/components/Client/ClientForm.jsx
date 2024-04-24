@@ -4,6 +4,7 @@ import Select from "react-select";
 
 import axios from "axios";
 import setRequestHeaders from "../RequestHeaders";
+import { optionsMap  } from '../../utilities';
 
 const ClientForm = ({createClient, categories}) => {
   const [firstName, setFirstName] = useState('');
@@ -13,7 +14,6 @@ const ClientForm = ({createClient, categories}) => {
   const [categoryOptions, setCategoryOptions] = useState(null);
 
   const resetForm = () => {
-    console.log('resetting')
     setFirstName('');
     setLastName('');
     setEmail('');
@@ -22,8 +22,7 @@ const ClientForm = ({createClient, categories}) => {
 
   useEffect(() => {
     if (categories) {
-      const opts = categories?.map(({id: value, name: label})=>({value, label}));
-      setCategoryOptions(opts)
+      setCategoryOptions(optionsMap(categories))
     }
   }, [categories])
 

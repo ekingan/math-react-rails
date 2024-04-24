@@ -7,10 +7,12 @@ import axios from "axios";
 
 import Clients from './Client/Clients';
 import Jobs from './Job/Jobs';
+import ErrorMessage from './ErrorMessage'
 
 const Pages = () => {
   const [clients, setClients] = useState(null);
   const [categories, setCategories] = useState(null);
+  const [error, setError] = useState(null);
 
   const getClientList = () => {
     axios.get("/api/v1/clients")
@@ -19,7 +21,7 @@ const Pages = () => {
             setClients(clients);
           })
           .catch((error) => {
-            console.log(error);
+            setError(error)
           });
   };
 
@@ -28,7 +30,7 @@ const Pages = () => {
       const categories = response.data;
       setCategories(categories);
     }).catch((error) => {
-      console.log(error)
+      setError(error)
     });
   };
 
@@ -51,13 +53,18 @@ const Pages = () => {
       element: <Jobs clients={clients} categories={categories}/>,
     },
   ]);
-
+  if (error) <ErrorMessage error={error}/>
   if (clients && categories) {
     return (
-      <RouterProvider router={router} />
+       <div className='container'>
+        <RouterProvider router={router} />
+      </div>
+
     );
   } else {
-    return "loading"
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
   }
 };
 

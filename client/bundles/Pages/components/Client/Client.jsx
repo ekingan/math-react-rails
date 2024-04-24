@@ -4,6 +4,7 @@ import Select from "react-select";
 import axios from "axios";
 import _ from "lodash";
 import setRequestHeaders from '../RequestHeaders';
+import { optionsMap  } from '../../utilities';
 
 const Client = ({client, getClients, categories}) => {
   const [firstName, setFirstName] = useState(client.first_name);
@@ -39,8 +40,7 @@ const Client = ({client, getClients, categories}) => {
 
   useEffect(() => {
     if (categories) {
-      const opts = categories?.map(({id: value, name: label})=>({value, label}));
-      setCategoryOptions(opts);
+      setCategoryOptions(optionsMap(categories));
     }
     updateClient();
   }, [firstName, lasttName, email, categories, selectedCategories])
