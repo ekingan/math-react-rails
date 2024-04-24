@@ -22,3 +22,9 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+todo:
+Color code client type
+Hide/archive delete
+search archived
+show/hide add new client
+switch last/first name of client
