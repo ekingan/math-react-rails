@@ -43,6 +43,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_03_29_224351) do
   create_table "jobs", force: :cascade do |t|
     t.integer "status"
     t.integer "year"
+    t.boolean "paid"
+    t.float "price"
     t.bigint "client_id", null: false
     t.bigint "user_id", null: false
     t.bigint "category_id", null: false
