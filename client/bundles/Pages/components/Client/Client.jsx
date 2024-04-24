@@ -65,19 +65,19 @@ const Client = ({client, getClients, categories}) => {
         <td>
           <input
             type="text"
-            defaultValue={client.first_name}
-            onChange={(e) => setFirstName(e.target.value)}
+            defaultValue={client.last_name}
+            onChange={(e) => setLastName(e.target.value)}
             className="form-control"
-            id={`client__firstName-${client.id}`}
+            id={`client__lastName-${client.id}`}
           />
         </td>
         <td>
           <input
             type="text"
-            defaultValue={client.last_name}
-            onChange={(e) => setLastName(e.target.value)}
+            defaultValue={client.first_name}
+            onChange={(e) => setFirstName(e.target.value)}
             className="form-control"
-            id={`client__lastName-${client.id}`}
+            id={`client__firstName-${client.id}`}
           />
         </td>
         <td className="text-right">
@@ -90,7 +90,7 @@ const Client = ({client, getClients, categories}) => {
           />
         </td>
         <td>
-        <Select
+          <Select
             placeholder="select client types"
             defaultValue={selectedCategories}
             onChange={setSelectedCategories}

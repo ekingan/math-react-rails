@@ -6,14 +6,17 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 const Clients = ({clients, setClients, getClients, categories}) => {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filtered, setFilter] = useState(clients);
+  const [filtered, setFilter] = useState(clients.filter((client) => client.archived === false));
   const [allClients, setAllClients] = useState(clients)
+  const [showArchived, setShowArchived] = useState(false)
+
   const createClient = (client) => {
     const newClientList = [ client, ...clients]
     setClients(newClientList); 
   }
 
   const handleSearch = (term) => {
+    setSearchTerm(term)
     if (term === '') {
       setAllClients(allClients);
     } else {
@@ -25,6 +28,17 @@ const Clients = ({clients, setClients, getClients, categories}) => {
       setFilter(filtered);
     }
   };
+
+  const handleShowArchived = (e) => {
+    setShowArchived(!showArchived)
+    if (showArchived) {
+      setFilter(clients.filter((client) => client.archived === false));
+    } else {
+      setFilter(allClients);
+    }
+  };
+
+
   return (
     <>
       <ClientForm createClient={createClient} categories={categories}/>
@@ -36,6 +50,10 @@ const Clients = ({clients, setClients, getClients, categories}) => {
         className="form-control"
         placeholder='search'
       />
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={(e) => handleShowArchived(e.target.value)}/>
+        <label class="form-check-label" for="flexSwitchCheckDefault">Show Archived</label>
+      </div>
       </div>
       <div className="table-responsive">
         <table className="table">
@@ -46,6 +64,7 @@ const Clients = ({clients, setClients, getClients, categories}) => {
               <th scope="col" className="text-right">
                 Email
               </th>
+              <th scope="col">Archived</th> 
             </tr>
           </thead>
           <tbody>

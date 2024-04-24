@@ -4,4 +4,8 @@ class Client < ApplicationRecord
   has_many :categories, through: :client_categories
   validates :first_name, :last_name, :email, presence: true
   default_scope { order(:last_name)}
+
+  def destroy
+    update(archived: true)
+  end
 end
