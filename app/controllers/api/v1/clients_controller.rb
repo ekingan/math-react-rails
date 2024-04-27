@@ -38,6 +38,7 @@ class Api::V1::ClientsController < ApplicationController
   def update
     if authorized?
       respond_to do |format|
+        
         if @client.update(client_params)
           format.json do
             render :show,

@@ -12,10 +12,8 @@ const Job = ({job, getJobs, clients, categories}) => {
   const [status, setStatus] = useState(job.status);
   const [price, setPrice] = useState(job.price);
   const [paid, setPaid] = useState(job.paid); 
-
   const client = clients && clients.filter((client) => client.id === job.client_id )[0];
   const category = categories && categories.filter((category) => category.id === job.category_id)[0];
-
   const path = `/api/v1/jobs/${job.id}`;
 
   const updateJob = _.debounce(() => {
@@ -27,6 +25,8 @@ const Job = ({job, getJobs, clients, categories}) => {
           year,
           status,
           category_id: categoryId,
+          paid,
+          price,
         },
       })
       .then((response) => {
@@ -37,25 +37,25 @@ const Job = ({job, getJobs, clients, categories}) => {
       });
   }, 1000);
 
-useEffect(() => {
-  updateJob();
-}, [client, year, status])
+  useEffect(() => {
+    updateJob();
+  }, [client, year, status])
 
-  const handleDestroy = () => {
-    setRequestHeaders();
-    
-    const confirmation = confirm("Are you sure?");
-        if (confirmation) {
-          axios
-            .delete(path)
-            .then((response) => {
-              getJobs();
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }
-  };
+    const handleDestroy = () => {
+      setRequestHeaders();
+      
+      const confirmation = confirm("Are you sure?");
+          if (confirmation) {
+            axios
+              .delete(path)
+              .then((response) => {
+                getJobs();
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+    };
   return (
       <tr>
         <td>
@@ -85,7 +85,7 @@ useEffect(() => {
           <input
             type="number"
             defaultValue={job.price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setPrice(parseInt(e.target.value, 10))}
             className="form-control"
             id={`job__price-${job.id}`}
           /> 
@@ -93,7 +93,7 @@ useEffect(() => {
         <td>
         <td>
           <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={(e) => setPaid(e.target.value)}/>
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" checked={paid} onChange={() => setPaid(!paid)}/>
           </div>
         </td>
         </td>

@@ -1,38 +1,46 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import Accordion from 'react-bootstrap/Accordion';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 
 import axios from "axios";
 import setRequestHeaders from "../RequestHeaders";
 import { statuses } from '../../utilities';
+import { AccordionBody, AccordionHeader } from "react-bootstrap";
 
-const JobForm = ({createJob, clients, categories}) => {
+const JobForm = ({ createJob, clients, categories }) => {
   const [clientId, setClientId] = useState(null);
   const [categoryId, setCategoryId] = useState(null);
   const [year, setYear] = useState(new Date().getFullYear() - 1);
   const [status, setStatus] = useState('todo');
   const [price, setPrice] = useState(0);
-  const [paid, setPaid] = useState(false); 
+  const [paid, setPaid] = useState(false);
 
   const resetForm = () => {
     setClient(null);
     setYear(new Date().getFullYear() - 1);
     setStatus('todo');
+    setPaid(false);
+    setPrice(0);
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setRequestHeaders();
-    axios
-      .post("/api/v1/jobs", {
-        job: {
-          client_id: clientId,
-          year,
-          status,
-          category_id: categoryId,
-          price,
-          paid,
-        },
-      })
+    console.log('here')
+    axios.post("/api/v1/jobs", {
+      job: {
+        client_id: clientId,
+        year,
+        status,
+        category_id: categoryId,
+        price,
+        paid,
+      },
+    })
       .then((response) => {
         const job = response.data;
         createJob(job);
@@ -44,57 +52,86 @@ const JobForm = ({createJob, clients, categories}) => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} className="my-3">
-      <div className="form-row">
-        <div className="form-group col-md-8">
-          <input
-            type="text"
-            name="year"
-            required
-            className="form-control"
-            id="year"
-            placeholder='Year'
-            defaultValue={year}
-            onChange={(e) => setYear(e.target.value)}
-          />
-          <label>
-            <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
-              {statuses.map((status) => <option value={status}> {status} </option>
-              )}
-            </select> 
-          </label>
-          <label>
-            <select className="form-select" onChange={(e) => setClientId(e.target.value)}>
-              <option selected>Select a client</option>
-              {clients && clients.map((client) => <option value={client.id}> {`${client.last_name}, ${client.first_name}`} </option>
-              )}
-            </select> 
-          </label>
-          <label>
-          <select className="form-select" onChange={(e) => setCategoryId(e.target.value)}>
-            <option selected>Select a type</option>
-            {categories && categories.map((category) => <option value={category.id}> {category.name} </option>
-            )}
-          </select> 
-          </label>
-          <input
-            type="number"
-            onChange={(e) => setPrice(e.target.value)}
-            className="form-control"
-            placeholder='price'
-          />
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={(e) => setPaid(e.target.value)}/>
-            <label class="form-check-label" for="flexSwitchCheckDefault">Paid?</label>
-          </div>
-        </div>
-        <div className="form-group col-md-4">
-          <button className="btn btn-outline-success btn-block">
-            Add Job
-          </button>
-        </div>
-      </div>
-    </form>
+    <Container fluid>
+      <Accordion>
+        <AccordionHeader>
+          New Job
+        </AccordionHeader>
+        <AccordionBody>
+          <form onSubmit={(e) => handleSubmit(e)} className="my-3">
+            <Row>
+              <Col>
+                <label> Client
+                  <select className="form-select" onChange={(e) => setClientId(e.target.value)}>
+                    <option selected>Select a client</option>
+                    {clients && clients.filter((client) => !client.archived).map((client) => <option value={client.id}> {`${client.last_name}, ${client.first_name}`} </option>
+                    )}
+                  </select>
+                </label>
+              </Col>
+              <Col>
+                <label> Status
+                  <select className="form-select" value={status} onChange={(e) => setStatus(e.target.value)}>
+                    {statuses.map((status) => <option value={status}> {status} </option>
+                    )}
+                  </select>
+                </label>
+              </Col>
+              <Col>
+                <label> Type
+                  <select className="form-select" onChange={(e) => setCategoryId(e.target.value)}>
+                    <option selected>Select a type</option>
+                    {categories && categories.map((category) => <option value={category.id}> {category.name} </option>
+                    )}
+                  </select>
+                </label>
+              </Col>
+              <Col>
+                <label>Year
+                  <input
+                    type="text"
+                    name="year"
+                    required
+                    className="form-control"
+                    id="year"
+                    placeholder='Year'
+                    defaultValue={year}
+                    onChange={(e) => setYear(e.target.value)}
+                  />
+                </label>
+              </Col>
+              <Col>
+                <label>Price
+                  <input
+                    type="number"
+                    onChange={(e) => setPrice(e.target.value)}
+                    className="form-control"
+                    placeholder='price'
+                  />
+                </label>
+              </Col>
+              <Col xs>
+                <div class="form-check form-switch">
+                  <Row>
+                    <label class="form-check-label" for="flexSwitchCheckDefault">Paid?</label>
+                  </Row>
+                  <Row>
+                    <Container>
+                      <input type="checkbox" onChange={() => setPaid(!paid)} />
+                    </Container>
+                  </Row>
+                </div>
+              </Col>
+              <Col>
+                <Button onClick={(e) => handleSubmit(e)} variant="outline-success">
+                  Add Job
+                </Button>
+              </Col>
+            </Row>
+          </form>
+        </AccordionBody>
+      </Accordion>
+    </Container >
   );
 }
 

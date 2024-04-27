@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import Client from './Client';
 import ClientForm from './ClientForm';
-import Filter from '../Filter';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Clients = ({clients, setClients, getClients, categories}) => {
+const Clients = ({ clients, setClients, getClients, categories }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filtered, setFilter] = useState(clients.filter((client) => client.archived === false));
   const [allClients, setAllClients] = useState(clients)
   const [showArchived, setShowArchived] = useState(false)
 
   const createClient = (client) => {
-    const newClientList = [ client, ...clients]
-    setClients(newClientList); 
+    const newClientList = [client, ...clients]
+    setClients(newClientList);
   }
 
   const handleSearch = (term) => {
@@ -40,21 +42,27 @@ const Clients = ({clients, setClients, getClients, categories}) => {
 
 
   return (
-    <>
-      <ClientForm createClient={createClient} categories={categories}/>
-      <div>
-      <input
-        type="text"
-        defaultValue={searchTerm}
-        onChange={(e) => handleSearch(e.target.value)}
-        className="form-control"
-        placeholder='search'
-      />
-      <div class="form-check form-switch">
-        <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={(e) => handleShowArchived(e.target.value)}/>
-        <label class="form-check-label" for="flexSwitchCheckDefault">Show Archived</label>
-      </div>
-      </div>
+    <Container>
+      <Row>
+        <ClientForm createClient={createClient} categories={categories} />
+      </Row>
+      <Row>
+        <Col>
+          <input
+            type="text"
+            defaultValue={searchTerm}
+            onChange={(e) => handleSearch(e.target.value)}
+            className="form-control"
+            placeholder='search'
+          />
+        </Col>
+        <Col>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" onChange={(e) => handleShowArchived(e.target.value)} />
+            <label class="form-check-label" for="flexSwitchCheckDefault">Show Archived</label>
+          </div>
+        </Col>
+      </Row>
       <div className="table-responsive">
         <table className="table">
           <thead>
@@ -64,16 +72,16 @@ const Clients = ({clients, setClients, getClients, categories}) => {
               <th scope="col" className="text-right">
                 Email
               </th>
-              <th scope="col">Type</th> 
+              <th scope="col">Type</th>
             </tr>
           </thead>
           <tbody>
-            {clients && filtered.map((client) => <Client client={client} getClients={getClients} key={client.id} categories={categories}/>
+            {clients && filtered.map((client) => <Client client={client} getClients={getClients} key={client.id} categories={categories} />
             )}
           </tbody>
         </table>
       </div>
-    </>
+    </Container >
   );
 };
 

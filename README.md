@@ -24,4 +24,8 @@ Things you may want to cover:
 * ...
 todo:
 Color code client type
-show/hide add new client
+Unarchive clients
+Click on client to make new job
+Filter client types
+Add csv export
+Add dashboard pages
