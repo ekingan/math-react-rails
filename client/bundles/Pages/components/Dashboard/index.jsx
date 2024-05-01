@@ -8,7 +8,7 @@ const Dashboard = ({ jobs, clients, categories, getJobs }) => {
   const inProgress = jobs.filter((job) => job.status == 'in_progress');
   const needInfo = jobs.filter((job) => job.status == 'need_info');
   const signatures = jobs.filter((job) => job.status == 'need_signatures');
-  const ready = jobs.filter((job) => job.status == statuses.indexOf('ready'));
+  const ready = jobs.filter((job) => job.status == 'ready');
 
   return (
     <Stack gap={3}>
