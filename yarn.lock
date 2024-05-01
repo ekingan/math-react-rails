@@ -3225,7 +3225,7 @@ jsesc@~0.5.0:
 
 jslint@^0.12.1:
   version "0.12.1"
-  resolved "https://registry.npmjs.org/jslint/-/jslint-0.12.1.tgz"
+  resolved "https://registry.yarnpkg.com/jslint/-/jslint-0.12.1.tgz#7b6a1e21c67380d5c8929c3dc0288227a9365dcb"
   integrity sha512-q5iHswjOmJffbsGVq/1umGh4YBxb5pCArNHCZeHpkuVDDKM6IldqUn4hLehKSwQr7Bn07VXjD34Lx3nw+6j8eA==
   dependencies:
     exit "~0.1.2"
