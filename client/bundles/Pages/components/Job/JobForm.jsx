@@ -20,7 +20,7 @@ const JobForm = ({ createJob, clients, categories }) => {
   const [paid, setPaid] = useState(false);
 
   const resetForm = () => {
-    setClient(null);
+    setClientId(null);
     setYear(new Date().getFullYear() - 1);
     setStatus('todo');
     setPaid(false);
@@ -30,8 +30,6 @@ const JobForm = ({ createJob, clients, categories }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setRequestHeaders();
-    console.log('here')
-    console.log({ categoryId })
     axios.post("/api/v1/jobs", {
       job: {
         client_id: clientId,

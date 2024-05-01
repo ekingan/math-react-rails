@@ -7,16 +7,18 @@ import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Clients = ({ clients, setClients, getClients, categories }) => {
+const Clients = ({ clients, getClients, categories }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filtered, setFilter] = useState(clients.filter((client) => client.archived === false));
   const [allClients, setAllClients] = useState(clients)
   const [showArchived, setShowArchived] = useState(false)
 
   const createClient = (client) => {
-    const newClientList = [client, ...clients]
-    setClients(newClientList);
-  }
+    const newClientList = [client, ...allClients];
+    setAllClients(newClientList);
+    setFilter(newClientList);
+    getClients();
+  };
 
   const handleSearch = (term) => {
     setSearchTerm(term)

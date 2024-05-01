@@ -26,7 +26,7 @@ const ClientForm = ({ createClient, categories }) => {
 
   useEffect(() => {
     if (categories) {
-      setCategoryOptions(optionsMap(categories))
+      setCategoryOptions(optionsMap(categories));
     }
   }, [categories])
 

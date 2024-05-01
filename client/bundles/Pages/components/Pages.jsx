@@ -20,7 +20,7 @@ const Pages = () => {
     axios.get("/api/v1/jobs")
       .then((response) => {
         const jobs = response.data;
-        console.log('getting jobs')
+        console.log('********************')
         setJobs(jobs);
       })
       .catch((error) => {
@@ -28,13 +28,11 @@ const Pages = () => {
       });
   };
 
-  console.log({ jobs })
-
   const getClientList = () => {
     axios.get("/api/v1/clients")
       .then((response) => {
         const clients = response.data;
-        console.log('clients')
+        console.log('********************')
         setClients(clients);
       })
       .catch((error) => {
@@ -60,11 +58,11 @@ const Pages = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Dashboard jobs={jobs} getJobs={getJobs} clients={clients} categories={categories} />,
+      element: <Dashboard jobs={jobs} getJobs={getJobs} setJobs={setJobs} clients={clients} categories={categories} />,
     },
     {
       path: "clients",
-      element: <Clients clients={clients} getClients={getClientList} setClients={setClients} categories={categories} />,
+      element: <Clients clients={clients} getClients={getClientList} categories={categories} />,
     },
     {
       path: "jobs",
