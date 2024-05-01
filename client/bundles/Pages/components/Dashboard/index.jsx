@@ -9,6 +9,7 @@ const Dashboard = ({ jobs, clients, categories, getJobs }) => {
   const needInfo = jobs.filter((job) => job.status == 'need_info');
   const signatures = jobs.filter((job) => job.status == 'need_signatures');
   const ready = jobs.filter((job) => job.status == 'ready');
+  const rejected = jobs.filter((job) => job.status == 'rejected');
 
   return (
     <Stack gap={3}>
@@ -40,6 +41,12 @@ const Dashboard = ({ jobs, clients, categories, getJobs }) => {
         <div className="p-2">
           <h3>Ready to File</h3>
           <DashboardItem jobs={ready} clients={clients} categories={categories} getJobs={getJobs} />
+        </div>
+      }
+      {rejected.length > 0 &&
+        <div className="p-2">
+          <h3>Rejected</h3>
+          <DashboardItem jobs={rejected} clients={clients} categories={categories} getJobs={getJobs} />
         </div>
       }
     </Stack>

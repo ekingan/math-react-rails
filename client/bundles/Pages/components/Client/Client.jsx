@@ -85,9 +85,6 @@ const Client = ({ client, getClients, categories }) => {
           price: null
         },
       })
-      .then(() => {
-        getJobs();
-      })
       .catch((error) => {
         console.log(error);
       });
