@@ -56,7 +56,7 @@ const ClientForm = ({ createClient, categories }) => {
   return (
     <Accordion>
       <Accordion.Header>
-        New Client
+        Create New Client
       </Accordion.Header>
       <Accordion.Body>
         <form onSubmit={(e) => handleSubmit(e)} className="my-3">

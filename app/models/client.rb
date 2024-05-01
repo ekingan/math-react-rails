@@ -8,4 +8,8 @@ class Client < ApplicationRecord
   def destroy
     update(archived: true)
   end
+
+  def activate
+    update(archived: false)
+  end
 end

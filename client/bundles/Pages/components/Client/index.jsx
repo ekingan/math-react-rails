@@ -4,6 +4,7 @@ import ClientForm from './ClientForm';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Clients = ({ clients, setClients, getClients, categories }) => {
@@ -63,24 +64,22 @@ const Clients = ({ clients, setClients, getClients, categories }) => {
           </div>
         </Col>
       </Row>
-      <div className="table-responsive">
-        <table className="table">
-          <thead>
-            <tr>
-              <th scope="col">Last Name</th>
-              <th scope="col">First Name</th>
-              <th scope="col" className="text-right">
-                Email
-              </th>
-              <th scope="col">Type</th>
-            </tr>
-          </thead>
-          <tbody>
-            {clients && filtered.map((client) => <Client client={client} getClients={getClients} key={client.id} categories={categories} />
-            )}
-          </tbody>
-        </table>
-      </div>
+      <Table striped hover responsive>
+        <thead>
+          <tr>
+            <th scope="col">Last Name</th>
+            <th scope="col">First Name</th>
+            <th scope="col" className="text-right">
+              Email
+            </th>
+            <th scope="col">Type</th>
+          </tr>
+        </thead>
+        <tbody>
+          {clients && filtered.map((client) => <Client client={client} getClients={getClients} key={client.id} categories={categories} />
+          )}
+        </tbody>
+      </Table>
     </Container >
   );
 };

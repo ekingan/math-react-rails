@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :jobs, only: %i[index show create update destroy]
       resources :clients, only: %i[index show create update destroy]
       resources :categories, only: %i[index]
+      post 'clients/:id/activate', to: 'clients#activate'
     end
   end
   get '*path', to: 'pages#index', via: :all

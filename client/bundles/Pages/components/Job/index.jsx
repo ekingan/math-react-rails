@@ -4,14 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Table from 'react-bootstrap/Table';
-import axios from "axios";
 import Job from './Job';
 import JobForm from './JobForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Jobs = ({ clients, categories }) => {
-  const [allJobs, setAllJobs] = useState(null);
-  const [filteredJobs, setFilteredJobs] = useState(null);
+const Jobs = ({ clients, categories, getJobs, jobs }) => {
+  const [allJobs, setAllJobs] = useState(jobs);
+  const [filteredJobs, setFilteredJobs] = useState(jobs);
   const [statusFilter, setStatusFilter] = useState('');
   const [typeFilter, setTypeFilter] = useState('');
   const [paidFilter, setPaidFilter] = useState(null);
@@ -19,26 +18,16 @@ const Jobs = ({ clients, categories }) => {
   const [priceFilter, setPriceFilter] = useState(null);
   const [clientFilter, setClientFilter] = useState('')
 
-  const getJobs = () => {
-    axios.get("/api/v1/jobs")
-      .then((response) => {
-        const jobs = response.data;
-        setAllJobs(jobs);
-        setFilteredJobs(jobs);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-
   const createJob = (job) => {
     const newJobList = [job, ...allJobs]
     setAllJobs(newJobList);
     setFilteredJobs(newJobList);
+    getJobs();
   }
 
   useEffect(() => {
-    getJobs();
+    setAllJobs(jobs);
+    setFilteredJobs(jobs);
   }, []);
 
   useEffect(() => {
@@ -80,7 +69,7 @@ const Jobs = ({ clients, categories }) => {
                   defaultValue={clientFilter}
                   onChange={(e) => setClientFilter(e.target.value)}
                   className="form-control"
-                  placeholder='search'
+                  placeholder='search by client'
                 />
               </th>
               <th scope="col">Year
@@ -89,7 +78,7 @@ const Jobs = ({ clients, categories }) => {
                   defaultValue={yearFilter}
                   onChange={(e) => setYearFilter(e.target.value)}
                   className="form-control"
-                  placeholder='search'
+                  placeholder='search by year'
                 />
               </th>
               <th scope="col">Type
@@ -98,7 +87,7 @@ const Jobs = ({ clients, categories }) => {
                   defaultValue={""}
                   onChange={(e) => setTypeFilter(e.target.value)}
                   className="form-control"
-                  placeholder='search'
+                  placeholder='search by type'
                 />
               </th>
               <th scope="col">Price
@@ -107,7 +96,7 @@ const Jobs = ({ clients, categories }) => {
                   defaultValue={priceFilter}
                   onChange={(e) => setPriceFilter(e.target.value)}
                   className="form-control"
-                  placeholder='search'
+                  placeholder='search by price'
                 />
               </th>
               <th scope="col">Paid
@@ -124,7 +113,7 @@ const Jobs = ({ clients, categories }) => {
                   defaultValue={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value)}
                   className="form-control"
-                  placeholder='search'
+                  placeholder='search by status'
                 />
               </th>
               <th>

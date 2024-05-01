@@ -24,8 +24,7 @@ Things you may want to cover:
 * ...
 todo:
 Color code client type
-Unarchive clients
-Click on client to make new job
+Add redirect once new job is created?
 Filter client types
 Add csv export
-Add dashboard pages
+Refresh clients after delete or activate

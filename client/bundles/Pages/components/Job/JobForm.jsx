@@ -25,12 +25,13 @@ const JobForm = ({ createJob, clients, categories }) => {
     setStatus('todo');
     setPaid(false);
     setPrice(0);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setRequestHeaders();
     console.log('here')
+    console.log({ categoryId })
     axios.post("/api/v1/jobs", {
       job: {
         client_id: clientId,
@@ -55,7 +56,7 @@ const JobForm = ({ createJob, clients, categories }) => {
     <Container fluid>
       <Accordion>
         <AccordionHeader>
-          New Job
+          Create New Job
         </AccordionHeader>
         <AccordionBody>
           <form onSubmit={(e) => handleSubmit(e)} className="my-3">
@@ -79,7 +80,7 @@ const JobForm = ({ createJob, clients, categories }) => {
               </Col>
               <Col>
                 <label> Type
-                  <select className="form-select" onChange={(e) => setCategoryId(e.target.value)}>
+                  <select className="form-select" onChange={(e) => setCategoryId(parseInt(e.target.value, 10))}>
                     <option selected>Select a type</option>
                     {categories && categories.map((category) => <option value={category.id}> {category.name} </option>
                     )}

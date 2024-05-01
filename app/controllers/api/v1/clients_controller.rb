@@ -1,6 +1,6 @@
 class Api::V1::ClientsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_client, only: %i[show update destroy]
+  before_action :set_client, only: %i[show update destroy activate]
 
   def index
     @clients = current_user.clients.all
@@ -38,7 +38,6 @@ class Api::V1::ClientsController < ApplicationController
   def update
     if authorized?
       respond_to do |format|
-        
         if @client.update(client_params)
           format.json do
             render :show,
@@ -60,6 +59,26 @@ class Api::V1::ClientsController < ApplicationController
     if authorized?
       @client.destroy
       respond_to { |format| format.json { head :no_content } }
+    else
+      handle_unauthorized
+    end
+  end
+
+  def activate
+    if authorized?
+      respond_to do |format|
+        if @client.activate
+          format.json do
+            render :show,
+                   status: :ok,
+                   location: api_v1_client_path(@client)
+          end
+        else
+          format.json do
+            render json: @client.errors, status: :unprocessable_entity
+          end
+        end
+      end
     else
       handle_unauthorized
     end
