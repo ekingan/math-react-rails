@@ -29,9 +29,6 @@ const Job = ({ job, getJobs, clients, categories }) => {
           price,
         },
       })
-      .then((response) => {
-        console.log({response})
-      })
       .catch((error) => {
         console.log(error);
       });
@@ -39,7 +36,7 @@ const Job = ({ job, getJobs, clients, categories }) => {
 
   useEffect(() => {
     updateJob();
-  }, [client, year, status])
+  }, [client, year, status, paid, price, categoryId])
 
   const handleDestroy = () => {
     setRequestHeaders();

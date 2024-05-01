@@ -2,7 +2,7 @@ import React from 'react';
 import Job from '../Job/Job';
 import Table from 'react-bootstrap/Table';
 
-const DashboardItem = ({ jobs, getJobs, clients, categories }) => {
+const DashboardItem = ({ jobs, getJobs, setJobs, clients, categories }) => {
   return (
     <Table striped bordered hover>
       <thead>
