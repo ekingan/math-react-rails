@@ -23,12 +23,26 @@ const Clients = ({ clients, getClients, categories }) => {
 
   const deleteClient = (clientToRemove) => {
     const newClientList = clients.filter((client) => client.id != clientToRemove.id);
-    console.log({ newClientList })
     setAllClients(newClientList);
     if (showArchived) {
       setFilter(newClientList);
     } else {
       setFilter(archived(newClientList, false))
+    }
+    getClients();
+  };
+
+  const activateClient = (clientToActivate) => {
+    const rest = clients.filter((client) => client.id != clientToActivate.id);
+    clientToActivate['archived'] = false;
+    debugger;
+    const newClientList = [clientToActivate, ...rest];
+    const sorted = newClientList.sort((a, b) => a.last_name.localeCompare(b.last_name));
+    setAllClients(sorted);
+    if (showArchived) {
+      setFilter(sorted);
+    } else {
+      setFilter(archived(sorted, false))
     }
     getClients();
   };
@@ -91,7 +105,7 @@ const Clients = ({ clients, getClients, categories }) => {
           </tr>
         </thead>
         <tbody>
-          {clients && filtered.map((client) => <Client client={client} createClient={createClient} deleteClient={deleteClient} key={client.id} categories={categories} />
+          {clients && filtered.map((client) => <Client client={client} activateClient={activateClient} deleteClient={deleteClient} key={client.id} categories={categories} />
           )}
         </tbody>
       </Table>

@@ -7,7 +7,7 @@ import _ from "lodash";
 import setRequestHeaders from '../RequestHeaders';
 import { optionsMap, defaultDate, statuses } from '../../utilities';
 
-const Client = ({ client, deleteClient, createClient, categories }) => {
+const Client = ({ client, deleteClient, activateClient, categories }) => {
   const [firstName, setFirstName] = useState(client.first_name);
   const [lasttName, setLastName] = useState(client.last_name);
   const [email, setEmail] = useState(client.email);
@@ -62,7 +62,7 @@ const Client = ({ client, deleteClient, createClient, categories }) => {
       const activatePath = `${path}/activate`
       axios.post(activatePath)
         .then(() => {
-          createClient(client);
+          activateClient(client);
         })
         .catch((error) => {
           console.log(error);
