@@ -1,5 +1,4 @@
 import React from 'react';
-import { statuses } from '../../utilities';
 import Stack from 'react-bootstrap/Stack';
 import DashboardItem from './DashboardItem';
 

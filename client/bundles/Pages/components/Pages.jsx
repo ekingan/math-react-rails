@@ -4,6 +4,7 @@ import {
   RouterProvider,
 } from 'react-router-dom'
 import axios from "axios";
+import Container from 'react-bootstrap/Container';
 import Spinner from 'react-bootstrap/Spinner';
 import Clients from './Client';
 import Jobs from './Job';
@@ -20,7 +21,6 @@ const Pages = () => {
     axios.get("/api/v1/jobs")
       .then((response) => {
         const jobs = response.data;
-        console.log('********************')
         setJobs(jobs);
       })
       .catch((error) => {
@@ -32,7 +32,6 @@ const Pages = () => {
     axios.get("/api/v1/clients")
       .then((response) => {
         const clients = response.data;
-        console.log('********************')
         setClients(clients);
       })
       .catch((error) => {
@@ -72,16 +71,18 @@ const Pages = () => {
   if (error) <ErrorMessage error={error} />
   if (clients && categories && jobs) {
     return (
-      <div className='container'>
+      <Container>
         <RouterProvider router={router} />
-      </div>
+      </Container>
 
     );
   } else {
     return (
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
+      <Container>
+        <Spinner animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </Container>
     )
   }
 };

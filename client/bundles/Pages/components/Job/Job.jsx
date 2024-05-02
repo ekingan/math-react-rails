@@ -29,6 +29,9 @@ const Job = ({ job, getJobs, clients, categories }) => {
           price,
         },
       })
+      .then(() => {
+        getJobs();
+      })
       .catch((error) => {
         console.log(error);
       });

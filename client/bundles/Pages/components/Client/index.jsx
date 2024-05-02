@@ -8,8 +8,9 @@ import Table from 'react-bootstrap/Table';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Clients = ({ clients, getClients, categories }) => {
+  const archived = (clients, boolean) => clients.filter((client) => client.archived === boolean);
   const [searchTerm, setSearchTerm] = useState('');
-  const [filtered, setFilter] = useState(clients.filter((client) => client.archived === false));
+  const [filtered, setFilter] = useState(archived(clients, false));
   const [allClients, setAllClients] = useState(clients)
   const [showArchived, setShowArchived] = useState(false)
 
@@ -17,6 +18,18 @@ const Clients = ({ clients, getClients, categories }) => {
     const newClientList = [client, ...allClients];
     setAllClients(newClientList);
     setFilter(newClientList);
+    getClients();
+  };
+
+  const deleteClient = (clientToRemove) => {
+    const newClientList = clients.filter((client) => client.id != clientToRemove.id);
+    console.log({ newClientList })
+    setAllClients(newClientList);
+    if (showArchived) {
+      setFilter(newClientList);
+    } else {
+      setFilter(archived(newClientList, false))
+    }
     getClients();
   };
 
@@ -78,7 +91,7 @@ const Clients = ({ clients, getClients, categories }) => {
           </tr>
         </thead>
         <tbody>
-          {clients && filtered.map((client) => <Client client={client} getClients={getClients} key={client.id} categories={categories} />
+          {clients && filtered.map((client) => <Client client={client} createClient={createClient} deleteClient={deleteClient} key={client.id} categories={categories} />
           )}
         </tbody>
       </Table>

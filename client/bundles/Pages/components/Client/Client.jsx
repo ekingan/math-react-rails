@@ -7,7 +7,7 @@ import _ from "lodash";
 import setRequestHeaders from '../RequestHeaders';
 import { optionsMap, defaultDate, statuses } from '../../utilities';
 
-const Client = ({ client, getClients, categories }) => {
+const Client = ({ client, deleteClient, createClient, categories }) => {
   const [firstName, setFirstName] = useState(client.first_name);
   const [lasttName, setLastName] = useState(client.last_name);
   const [email, setEmail] = useState(client.email);
@@ -31,7 +31,7 @@ const Client = ({ client, getClients, categories }) => {
       .catch((error) => {
         console.log(error);
       });
-  }, 1500);
+  }, 1000);
 
   useEffect(() => {
     if (categories) {
@@ -42,13 +42,12 @@ const Client = ({ client, getClients, categories }) => {
 
   const handleDestroy = () => {
     setRequestHeaders();
-
     const confirmation = confirm("Are you sure?");
     if (confirmation) {
       axios
         .delete(path)
         .then(() => {
-          getClients();
+          deleteClient(client);
         })
         .catch((error) => {
           console.log(error);
@@ -63,7 +62,7 @@ const Client = ({ client, getClients, categories }) => {
       const activatePath = `${path}/activate`
       axios.post(activatePath)
         .then(() => {
-          getClients();
+          createClient(client);
         })
         .catch((error) => {
           console.log(error);
@@ -144,5 +143,5 @@ export default Client;
 
 Client.propTypes = {
   client: PropTypes.object.isRequired,
-  getClients: PropTypes.func.isRequired,
+  deleteClientClients: PropTypes.func.isRequired,
 };
