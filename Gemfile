@@ -18,6 +18,8 @@ gem "puma", ">= 5.0"
 gem "jbuilder"
 gem 'pry-rails'
 gem 'bootstrap-sass'
+gem "devise-i18n"
+gem "devise-bootstrap5"
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"

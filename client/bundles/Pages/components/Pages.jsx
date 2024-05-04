@@ -20,11 +20,13 @@ const Pages = () => {
   const getJobs = () => {
     axios.get("/api/v1/jobs")
       .then((response) => {
+        console.log({ response })
         const jobs = response.data;
         setJobs(jobs);
       })
       .catch((error) => {
-        console.log(error);
+        const errorMessage = error.response.data.error;
+        setError(errorMessage)
       });
   };
 
@@ -35,7 +37,8 @@ const Pages = () => {
         setClients(clients);
       })
       .catch((error) => {
-        setError(error)
+        const errorMessage = error.response.data.error;
+        setError(errorMessage)
       });
   };
 
@@ -44,7 +47,8 @@ const Pages = () => {
       const categories = response.data;
       setCategories(categories);
     }).catch((error) => {
-      setError(error)
+      const errorMessage = error.response.data.error;
+      setError(errorMessage)
     });
   };
 
@@ -68,7 +72,7 @@ const Pages = () => {
       element: <Jobs clients={clients} categories={categories} getJobs={getJobs} jobs={jobs} />,
     },
   ]);
-  if (error) <ErrorMessage error={error} />
+  if (error) return <ErrorMessage error={error} />
   if (clients && categories && jobs) {
     return (
       <Container>

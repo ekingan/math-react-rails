@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { redirect } from "react-router-dom";
 import React, { useState, useEffect } from 'react';
 import Select from "react-select";
 import Button from 'react-bootstrap/Button';
@@ -83,6 +84,9 @@ const Client = ({ client, deleteClient, activateClient, categories }) => {
           paid: false,
           price: null
         },
+      })
+      .then(() => {
+        window.location.replace("/")
       })
       .catch((error) => {
         console.log(error);
