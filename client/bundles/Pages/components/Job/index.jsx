@@ -3,20 +3,22 @@ import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
+import Select from "react-select";
 import Table from 'react-bootstrap/Table';
 import Job from './Job';
 import JobForm from './JobForm';
+import { statuses } from '../../utilities';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const Jobs = ({ clients, categories, getJobs, jobs }) => {
   const [allJobs, setAllJobs] = useState(jobs);
   const [filteredJobs, setFilteredJobs] = useState(jobs);
-  const [statusFilter, setStatusFilter] = useState('');
+  const [statusFilter, setStatusFilter] = useState([]);
   const [typeFilter, setTypeFilter] = useState('');
   const [paidFilter, setPaidFilter] = useState(null);
   const [yearFilter, setYearFilter] = useState(null);
   const [priceFilter, setPriceFilter] = useState(null);
-  const [clientFilter, setClientFilter] = useState('')
+  const [clientFilter, setClientFilter] = useState('');
 
   const createJob = (job) => {
     const newJobList = [job, ...allJobs]
@@ -25,14 +27,19 @@ const Jobs = ({ clients, categories, getJobs, jobs }) => {
     getJobs();
   }
 
+  const defaultStatusOptions = statuses.map((status) => ({ 'value': status, 'label': status }));
+  
+  const setStatusOptions = (e) => setStatusFilter(e);
+
   useEffect(() => {
     setAllJobs(jobs);
     setFilteredJobs(jobs);
+    setStatusFilter(defaultStatusOptions);
   }, []);
 
   useEffect(() => {
     let filtered = allJobs;
-    if (statusFilter != '') filtered = filtered?.filter((job) => job.status.includes(statusFilter));
+    if (statusFilter != []) filtered = filtered?.filter((job) => statusFilter.map((status) => status['value']).includes(job.status));
     if (paidFilter) filtered = filtered?.filter((job) => String(job.paid) === paidFilter);
     if (yearFilter) filtered = filtered?.filter((job) => job.year == yearFilter);
     if (priceFilter) filtered = filtered?.filter((job) => job.price == priceFilter);
@@ -108,16 +115,17 @@ const Jobs = ({ clients, categories, getJobs, jobs }) => {
               </th>
               <th scope="col" className="text-right">
                 Status
-                <input
-                  type="text"
-                  defaultValue={statusFilter}
-                  onChange={(e) => setStatusFilter(e.target.value)}
-                  className="form-control"
-                  placeholder='search by status'
+                <Select
+                  placeholder="search by status"
+                  defaultValue={defaultStatusOptions}
+                  onChange={(e) => setStatusOptions(e)}
+                  options={defaultStatusOptions}
+                  value={statusFilter}
+                  isMulti
                 />
               </th>
               <th>
-                <Button onClick={(e) => resetFilters()} variant="outline-success">
+                <Button onClick={(_) => resetFilters()} variant="outline-success">
                   Reset
                 </Button>
               </th>
@@ -133,10 +141,5 @@ const Jobs = ({ clients, categories, getJobs, jobs }) => {
   );
 };
 
-Jobs.propTypes = {
-  clients: PropTypes.array.isRequired,
-  categories: PropTypes.object.isRequired,
-
-};
 
 export default Jobs;
