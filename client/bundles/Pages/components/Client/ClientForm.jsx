@@ -12,7 +12,7 @@ import { optionsMap } from '../../utilities';
 
 const ClientForm = ({ createClient, categories }) => {
   const [firstName, setFirstName] = useState('');
-  const [lasttName, setLastName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [selectedCategories, setSelectedCategories] = useState(null);
   const [categoryOptions, setCategoryOptions] = useState(null);
@@ -38,7 +38,7 @@ const ClientForm = ({ createClient, categories }) => {
       .post("/api/v1/clients", {
         client: {
           first_name: firstName,
-          last_name: lasttName,
+          last_name: lastName,
           email,
           category_ids: categoryIds,
         },
@@ -69,6 +69,7 @@ const ClientForm = ({ createClient, categories }) => {
                 className="form-control"
                 id="firstName"
                 placeholder='first name'
+                value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
             </Col>
@@ -79,6 +80,7 @@ const ClientForm = ({ createClient, categories }) => {
                 required
                 className="form-control"
                 id="lastName"
+                value={lastName}
                 placeholder='last name'
                 onChange={(e) => setLastName(e.target.value)}
               />
@@ -90,6 +92,7 @@ const ClientForm = ({ createClient, categories }) => {
                 required
                 className="form-control"
                 id="email"
+                value={email}
                 placeholder="email"
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -100,6 +103,7 @@ const ClientForm = ({ createClient, categories }) => {
                 defaultValue={selectedCategories}
                 onChange={setSelectedCategories}
                 options={categoryOptions}
+                value={selectedCategories}
                 isMulti
               />
             </Col>
