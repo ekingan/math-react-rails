@@ -134,8 +134,5 @@ const JobForm = ({ createJob, clients, categories }) => {
   );
 }
 
-JobForm.propTypes = {
-  createClient: PropTypes.func.isRequired,
-};
 
 export default JobForm;
